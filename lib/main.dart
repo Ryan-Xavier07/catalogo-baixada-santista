@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 // Ryan Xavier Paz Corrêa Amaral
 void main() {
@@ -10,12 +9,16 @@ class PontoTuristico {
   final String cidade;
   final String descricao;
   final String imagem;
+  bool favorito;
+  bool visitado;
 
   PontoTuristico({
     required this.nome,
     required this.cidade,
     required this.descricao,
     required this.imagem,
+    this.favorito = false,
+    this.visitado = false,
   });
 }
 
@@ -27,14 +30,19 @@ class CatalogoApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Catálogo da Baixada Santista',
-      home: TelaCatalogo(),
+      home: const TelaCatalogo(),
     );
   }
 }
 
-class TelaCatalogo extends StatelessWidget {
-  TelaCatalogo({super.key});
+class TelaCatalogo extends StatefulWidget {
+  const TelaCatalogo({super.key});
 
+  @override
+  State<TelaCatalogo> createState() => _TelaCatalogoState();
+}
+
+class _TelaCatalogoState extends State<TelaCatalogo> {
   final List<PontoTuristico> pontos = [
     PontoTuristico(
       nome: 'Museu do Café',
@@ -146,6 +154,33 @@ class TelaCatalogo extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(ponto.descricao),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: ponto.favorito,
+                      onChanged: (valor) {
+                        setState(() {
+                          ponto.favorito = valor ?? false;
+                        });
+                      },
+                    ),
+                    const Flexible(child: Text('Favorito')),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: ponto.visitado,
+                      onChanged: (valor) {
+                        setState(() {
+                          ponto.visitado = valor ?? false;
+                        });
+                      },
+                    ),
+                    const Flexible(child: Text('Visitado')),
+                  ],
+                ),
               ],
             ),
           ),
@@ -154,4 +189,3 @@ class TelaCatalogo extends StatelessWidget {
     );
   }
 }
-
